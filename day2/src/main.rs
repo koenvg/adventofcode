@@ -5,8 +5,8 @@ fn parse_line(line: &str) -> (usize, usize, String, String) {
     let re = Regex::new(r"(\d*)-(\d*) ([a-z]): (.*)").unwrap();
 
     let cap = re.captures(line).unwrap();
-    let min: usize = cap[1].parse().expect("Jos en jef");
-    let max: usize = cap[2].parse().expect("Jos en jef");
+    let min: usize = cap[1].parse().unwrap();
+    let max: usize = cap[2].parse().unwrap();
     let mandatory_character = String::from(&cap[3]);
     let password = String::from(&cap[4]);
     return (min, max, mandatory_character, password);
