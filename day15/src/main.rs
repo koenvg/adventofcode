@@ -20,14 +20,14 @@ fn part1() {
         spoken_numbers.insert(start[i], (-1, i as i32 + 1));
     }
 
-    for i in start.len() + 1..2021 {
+    for i in start.len() + 1..30000001 {
         let (prev, last) = spoken_numbers.get(&last_spoken_number).unwrap();
         if *prev == -1 {
             last_spoken_number = 0;
         } else {
             last_spoken_number = (last - prev) as usize;
         }
-        println!("SPEAK {} on TURN {}", last_spoken_number, i);
+        // println!("SPEAK {} on TURN {}", last_spoken_number, i);
         speak_number(last_spoken_number, i, &mut spoken_numbers);
     }
 
