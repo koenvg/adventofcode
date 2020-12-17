@@ -28,32 +28,30 @@ fn print_board(board: &HashMap<String, ((i32, i32, i32), char)>) {
 }
 
 fn part1(board: HashMap<String, ((i32, i32, i32), char)>) {
-    print_board(&board);
     let mut mutating_board = board;
-    for _ in 0..1 {
+    for _ in 0..6 {
         let mut new_board: HashMap<String, ((i32, i32, i32), char)> = HashMap::new();
         for (key, ((x, y, z), charge)) in &mutating_board {
             let mut active_neighbors = 0;
 
-            for dx in -1..1 {
-                for dy in -1..1 {
-                    for dz in -1..1 {
-                        if dx == 0 && dy == 0 && dz == 0 {
-                            continue;
-                        }
-                        match mutating_board.get(&coordinates_key(&(x + dx, y + dy, z + dz))) {
-                            Some((_, val)) => {
-                                if *val == '#' {
-                                    active_neighbors += 1;
+            for dx in -1..2 {
+                for dy in -1..2 {
+                    for dz in -1..2 {
+                        if dx != 0 || dy != 0 || dz != 0 {
+                            match mutating_board.get(&coordinates_key(&(x + dx, y + dy, z + dz))) {
+                                Some((_, val)) => {
+                                    if *val == '#' {
+                                        active_neighbors += 1;
+                                    }
                                 }
+                                None => {}
                             }
-                            None => {}
                         }
                     }
                 }
             }
 
-            if *charge == '#' && (active_neighbors == 2 || active_neighbors == 3) {
+            if *charge == '#' && !(active_neighbors == 2 || active_neighbors == 3) {
                 new_board.insert(key.to_string(), ((*x, *y, *z), '.'));
             } else if *charge == '.' && active_neighbors == 3 {
                 new_board.insert(key.to_string(), ((*x, *y, *z), '#'));
@@ -62,8 +60,18 @@ fn part1(board: HashMap<String, ((i32, i32, i32), char)>) {
             }
         }
         mutating_board = new_board;
-        print_board(&mutating_board);
+        // print_board(&mutating_board);
     }
+
+    let mut count = 0;
+
+    for (key, (coord, c)) in mutating_board {
+        if c == '#' {
+            count += 1;
+        }
+    }
+
+    println!("\nCOUNT: {}", count);
 }
 
 fn main() {
@@ -71,7 +79,7 @@ fn main() {
 
     let mut board: HashMap<String, ((i32, i32, i32), char)> = HashMap::new();
 
-    let range = 5;
+    let range = 15;
     for x in -range..range {
         for y in -range..range {
             for z in -range..range {
