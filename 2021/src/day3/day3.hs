@@ -5,7 +5,7 @@ import Data.List (transpose)
 import Debug.Trace (trace)
 import GHC.IO.Handle (hGetContents)
 import Numeric (showIntAtBase)
-import System.IO (IOMode (ReadMode), hClose, hGetContents, openFile)
+import System.IO
 import Text.Printf (printf)
 
 example = ["00100", "11110", "10110", "10111", "10101", "01111", "00111", "11100", "10000", "11001", "00010", "01010"]
@@ -60,12 +60,9 @@ part2 r = toDec oxygen * toDec co2
     co2 = findLifeSupportReading createCo2Pattern readings 0
 
 main = do
-  let list = []
-  handle <- openFile "src/day3/input.txt" ReadMode
-  contents <- hGetContents handle
+  contents <- readFile "src/day3/input.txt"
   let l = lines contents
       answer = part1 l
       answer2 = part2 l
   print answer
   print answer2
-  hClose handle
