@@ -32,6 +32,7 @@ part1 readings = toDec gamma * toDec epsilon
     gamma = (map (commonValue . parseReading) . transpose) readings
     epsilon = map xor' gamma
 
+createOxygenPattern :: [[Int]] -> [[(Int, Int)]]
 createOxygenPattern readings = map (zip pattern) readings
   where
     pattern = (map commonValue . transpose) readings
